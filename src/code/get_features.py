@@ -16,7 +16,7 @@ import features
 DATA_PATH = "/home/cgibson6279/Desktop/WinterCamp/src/data/"
 
 def main(args: argparse.Namespace) -> None:
-    with gzip.GzipFile(DATA_PATH + args.data, "r") as src:
+    with open(DATA_PATH + args.data, "r") as src:
         with open(DATA_PATH + args.features, "w") as out_file:
             for line in src:
                 line = word_tokenize(line.decode("utf-8").replace(":","_"))
