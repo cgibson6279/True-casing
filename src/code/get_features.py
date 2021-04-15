@@ -10,7 +10,6 @@ import gzip
 from nltk import word_tokenize
 from typing import List, Tuple
 
-import case
 import features 
 
 DATA_PATH = "/home/cgibson6279/Desktop/WinterCamp/src/data/"
