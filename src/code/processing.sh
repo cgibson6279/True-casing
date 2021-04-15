@@ -9,7 +9,7 @@ main() {
     ./get_features.py train.tok train.features
     ./get_features.py dev.tok dev.features
     ./get_features.py test.tok test.features
-    ./mixed_case news.2007.gz mc.json
+    ./mixed_case.py news.2007.gz mc.json
 }
 
 main
