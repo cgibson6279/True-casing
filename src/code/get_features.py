@@ -19,7 +19,7 @@ def main(args: argparse.Namespace) -> None:
     with open(DATA_PATH + args.data, "r") as src:
         with open(DATA_PATH + args.features, "w") as out_file:
             for line in src:
-                line = word_tokenize(line.decode("utf-8").replace(":","_"))
+                line = word_tokenize(line.replace(":","_"))
                 feature_list = features.extract(line)
                 for feature in feature_list:
                     print("\t".join(feature),file=out_file)
