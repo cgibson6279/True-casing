@@ -13,18 +13,29 @@ from typing import Iterator, List
 
 DATA_PATH = "/home/cgibson6279/Desktop/WinterCamp/src/data/"
 
-def get_lines(path: str) -> List[str]:
-    with gzip.GzipFile(path, "r") as src:
-        lines = []
-        for line in src:
-            line = line.decode("utf-8").rstrip()
-            lines.append(line.split())
-    return lines
+def read_file(path: str) -> List[str]:
+    """Read file opens .gz files and 
+    .txt files and returns a list of strings
+    """
+    if path.endswith(".gz"):
+        with gzip.GzipFile(path, "r") as src:
+            lines = []
+            for line in src:
+                line = line.decode("utf-8").rstrip()
+                lines.append(line.split())
+        return lines
+    else:
+        with open(path, "r") as src:
+            lines = []
+            for line in src:
+                line = line.decode("utf-8").rstrip()
+                lines.append(line.split())
+        return lines
 
 
 def main(args: argparse.Namespace) -> None:
     # Read in file as list
-    corpus = get_lines(DATA_PATH + args.data)
+    corpus = read_file(DATA_PATH + args.data)
     # Get values for splitting data
     train_size = int(len(corpus) * 0.8)
     dev_size = int(len(corpus) * 0.1)
