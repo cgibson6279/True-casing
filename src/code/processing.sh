@@ -10,3 +10,5 @@ main() {
     ./get_features.py "${test.tok}" "${test.features}"
     ./mixed_case "${data}" "${mc.json}"
 }
+
+main
