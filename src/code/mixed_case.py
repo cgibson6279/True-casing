@@ -35,7 +35,7 @@ def main(args: argparse.Namespace) -> None:
     for token in mc_dict.keys():
         max_mc_dict[token.casefold()] = mc_dict[token].most_common()
     
-    with open(args.mixed_case, "w", encoding="utf-8") as out_file:
+    with open(DATA_PATH+args.mixed_case, "w", encoding="utf-8") as out_file:
          json.dump(max_mc_dict, out_file, ensure_ascii=False, indent=4)
     
 
