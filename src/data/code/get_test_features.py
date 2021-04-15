@@ -11,7 +11,7 @@ from nltk import word_tokenize
 from typing import List, Tuple
 
 def _suffix_feature(token: str, size: int) -> str:
-    return f"suf{size}={token[-size:]}"
+    return f"suf{size}={token[-size:].casefold()}"
 
 def extract(tokens: List[str]) -> List[List[str]]:
     """Feature extraction."""
@@ -23,16 +23,16 @@ def extract(tokens: List[str]) -> List[List[str]]:
     # Preceding and following word features.
     if len(tokens) > 1:
         for i in range(1, len(tokens) - 1):
-            prev_token_feat = f"t[-1]={tokens[i - 1]}"
-            next_token_feat = f"t[+1]={tokens[i + 1]}"
+            prev_token_feat = f"t[-1]={tokens[i - 1].casefold()}"
+            next_token_feat = f"t[+1]={tokens[i + 1].casefold()}"
             vectors[i].append(prev_token_feat)
             vectors[i].append(next_token_feat)
             # Conjunction of the two.
             vectors[i].append(f"{prev_token_feat}^{next_token_feat}")
         if len(tokens) > 2:
             for i in range(2, len(tokens) - 2):
-                vectors[i].append(f"t[-2]={tokens[i - 2]}")
-                vectors[i].append(f"t[+2]={tokens[i + 2]}")
+                vectors[i].append(f"t[-2]={tokens[i - 2].casefold()}")
+                vectors[i].append(f"t[+2]={tokens[i + 2].casefold()}")
     # Suffix features.
     for (i, token) in enumerate(tokens):
         vector = vectors[i]

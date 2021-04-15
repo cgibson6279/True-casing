@@ -9,7 +9,6 @@ import logging
 import gzip
 from nltk import word_tokenize
 from typing import List, Tuple
-
 import features 
 
 def main(args: argparse.Namespace) -> None:
