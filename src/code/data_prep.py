@@ -11,8 +11,6 @@ import random
 
 from typing import Iterator, List
 
-DATA_PATH = "/home/cgibson6279/Desktop/WinterCamp/src/data/"
-
 def read_file(path: str) -> List[str]:
     """Read file opens .gz files and 
     .txt files and returns a list of strings
@@ -35,7 +33,7 @@ def read_file(path: str) -> List[str]:
 
 def main(args: argparse.Namespace) -> None:
     # Read in file as list
-    corpus = read_file(DATA_PATH + args.data)
+    corpus = read_file(args.data)
     # Get values for splitting data
     train_size = int(len(corpus) * 0.8)
     dev_size = int(len(corpus) * 0.1)
@@ -46,13 +44,13 @@ def main(args: argparse.Namespace) -> None:
     dev_data = corpus[train_size:train_size+dev_size]
     test_data = corpus[train_size+dev_size:]
     # Print data to files
-    with open(DATA_PATH + args.train, "w") as out_file:
+    with open(args.train, "w") as out_file:
         for line in train_data:
             print(" ".join(line), file=out_file)
-    with open(DATA_PATH + args.dev, "w") as out_file:
+    with open(args.dev, "w") as out_file:
         for line in dev_data:
             print(" ".join(line), file=out_file)
-    with open(DATA_PATH + args.test, "w") as out_file:
+    with open(args.test, "w") as out_file:
         for line in test_data:
             print(" ".join(line), file=out_file)
     # Log output

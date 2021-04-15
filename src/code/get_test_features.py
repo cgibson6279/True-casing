@@ -10,8 +10,6 @@ import gzip
 from nltk import word_tokenize
 from typing import List, Tuple
 
-DATA_PATH = "/home/cgibson6279/Desktop/WinterCamp/src/data/"
-
 def _suffix_feature(token: str, size: int) -> str:
     return f"suf{size}={token[-size:]}"
 
@@ -48,8 +46,8 @@ def extract(tokens: List[str]) -> List[List[str]]:
     return vectors
 
 def main(args: argparse.Namespace) -> None:
-    with open(DATA_PATH + args.data, "r") as src:
-        with open(DATA_PATH + args.features, "w") as out_file:
+    with open(args.data, "r") as src:
+        with open(args.features, "w") as out_file:
             for line in src:
                 line = word_tokenize(line.replace(":","_"))
                 feature_list = extract(line)

@@ -12,11 +12,9 @@ from typing import List, Tuple
 
 import features 
 
-DATA_PATH = "/home/cgibson6279/Desktop/WinterCamp/src/data/"
-
 def main(args: argparse.Namespace) -> None:
-    with open(DATA_PATH + args.data, "r") as src:
-        with open(DATA_PATH + args.features, "w") as out_file:
+    with open(args.data, "r") as src:
+        with open(args.features, "w") as out_file:
             for line in src:
                 line = word_tokenize(line.replace(":","_"))
                 feature_list = features.extract(line)
