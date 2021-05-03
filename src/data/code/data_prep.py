@@ -9,10 +9,11 @@ import gzip
 import logging
 import random
 
-from typing import Iterator, List
+from typing import List
+
 
 def read_file(path: str) -> List[str]:
-    """Read file opens .gz files and 
+    """Read file opens .gz files and
     .txt files and returns a list of strings
     """
     if path.endswith(".gz"):
@@ -39,10 +40,10 @@ def main(args: argparse.Namespace) -> None:
     dev_size = int(len(corpus) * 0.1)
     # Shuffle corpus
     random.Random(42).shuffle(corpus)
-    # Split data into train, dev, test 
+    # Split data into train, dev, test
     train_data = corpus[:train_size]
-    dev_data = corpus[train_size:train_size+dev_size]
-    test_data = corpus[train_size+dev_size:]
+    dev_data = corpus[train_size:train_size + dev_size]
+    test_data = corpus[train_size + dev_size:]
     # Print data to files
     with open(args.train, "w") as out_file:
         for line in train_data:
@@ -57,10 +58,12 @@ def main(args: argparse.Namespace) -> None:
     logging.info(f"Train set = {len(train_data)}")
     logging.info(f"Dev set = {len(dev_data)}")
     logging.info(f"Test set = {len(test_data)}")
-    
+
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Trains the case-restoration model")
+    parser = argparse.ArgumentParser(
+        description="Trains the case-restoration model"
+    )
     parser.add_argument("data", help="Path to input data file")
     parser.add_argument("train", help="Path for train data file")
     parser.add_argument("dev", help="Path for dev data file")

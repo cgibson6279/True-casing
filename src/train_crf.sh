@@ -5,13 +5,12 @@
 
 set -eou pipefail
 
-main() {
-    # need to figure out how to pass paths to script
-    crfsuite learn \
-        -p feature.possible_states=1 \
-        -p feature.possible_transitions=1 \
-        -m model \
-        -e2 data/train.features data/dev.features
-}
-
-main 
+# need to figure out how to pass paths to script
+crfsuite learn \
+    -p feature.minfreq=5 \
+    -p feature.possible_states=0 \
+    -p feature.possible_transitions=0 \
+    -m model \
+    -a ap \
+    -p max_iterations=20 \
+    -e2 data/features/train.features data/features/dev.features

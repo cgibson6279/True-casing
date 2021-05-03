@@ -1,16 +1,15 @@
 #!/bin/bash
 
-# Execute entire data processing pipeline
+# Split data into test, train, split files and creates mixed dictionary
 # Run in directory containing data
 
 set -eou pipefail
+set -x
 
 FILE=$1
 main() {
-    ./code/data_prep.py $FILE train.tok dev.tok test.tok
-    ./code/get_features.py train.tok train.features
-    ./code/get_features.py dev.tok dev.features
-    ./code/get_test_features.py test.tok test.features
+    #should echo some output that tracks progress
+    ./code/data_prep.py $FILE tok/train.tok tok/dev.tok tok/test.tok
     ./code/mixed_case.py $FILE mc.json
 }
 

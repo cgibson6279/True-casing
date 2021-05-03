@@ -134,7 +134,7 @@ def get_tc(nunistr: str) -> Tuple[TokenCase, Pattern]:
     return (TokenCase.MIXED, pattern)
 
 
-def apply_tc(nunistr: str, tc: TokenCase, pattern: Pattern = None) -> str:
+def apply_tc(nunistr: str, tc: TokenCase, mcdict: str) -> str:
     """Applies TokenCase to a Unicode string.
 
     This function applies a TokenCase to a Unicode string. Unless TokenCase is
@@ -143,8 +143,8 @@ def apply_tc(nunistr: str, tc: TokenCase, pattern: Pattern = None) -> str:
     Args:
         nunistr: A Unicode string to be cased.
         tc: A TokenCase indicating the casing to be applied.
-        pattern: An iterable of CharCase characters representing the specifics
-            of the `MIXED` TokenCase, when the `tc` argument is `MIXED`.
+        mcdict: A mixed case dictionary for lookup of `MIXED` TokenCase,
+            when the `tc` argument is `MIXED`.
 
     Returns:
         An appropriately-cased Unicode string.
@@ -162,9 +162,8 @@ def apply_tc(nunistr: str, tc: TokenCase, pattern: Pattern = None) -> str:
         return nunistr.title()
     elif tc == TokenCase.MIXED:
         # Defaults to lowercase if no pattern is provided.
-        if pattern is None:
+        if nunistr in mcdict.keys():
+            return mcdict[nunistr][0]
+        else:
             return nunistr.lower()
-        assert pattern
-        assert len(nunistr) == len(pattern)
-        return "".join(apply_cc(ch, cc) for (ch, cc) in zip(nunistr, pattern))
     raise UnknownTokenCaseError(tc)

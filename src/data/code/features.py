@@ -4,6 +4,7 @@ from typing import List
 
 import case
 
+
 def _suffix_feature(token: str, size: int) -> str:
     return f"suf{size}={token[-size:].casefold()}"
 
@@ -11,7 +12,13 @@ def _suffix_feature(token: str, size: int) -> str:
 def extract(tokens: List[str]) -> List[List[str]]:
     """Feature extraction."""
     # NB: tokens are assumed to already be case-folded.
-    vectors = [[str(case.get_tc(token)[0]).split(".")[0],f"t[0]={str.casefold(token)}"] for token in tokens]
+    vectors = [
+        [
+            str(case.get_tc(token)[0]).split(".")[0],
+            f"t[0]={str.casefold(token)}",
+        ]
+        for token in tokens
+    ]
     # Edge features.
     vectors[0].append("__BOS__")
     vectors[-1].append("__EOS__")

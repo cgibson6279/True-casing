@@ -4,14 +4,14 @@
 Generates feature file for given data set.
 """
 import argparse
-import logging
 
-import gzip
 from nltk import word_tokenize
-from typing import List, Tuple
+from typing import List
+
 
 def _suffix_feature(token: str, size: int) -> str:
     return f"suf{size}={token[-size:].casefold()}"
+
 
 def extract(tokens: List[str]) -> List[List[str]]:
     """Feature extraction."""
@@ -45,20 +45,37 @@ def extract(tokens: List[str]) -> List[List[str]]:
     # And we're done.
     return vectors
 
+
 def main(args: argparse.Namespace) -> None:
     with open(args.data, "r") as src:
         with open(args.features, "w") as out_file:
-            for line in src:
-                line = word_tokenize(line.replace(":","_"))
-                feature_list = extract(line)
-                for feature in feature_list:
-                    print("\t".join(feature),file=out_file)
-                print("\n", file=out_file)
+            with open(args.cased, "w") as cased:
+                with open(args.gold, "w") as gold:
+                    for line in src:
+                        line = word_tokenize(line.replace(":", "_"))
+                        # Get features
+                        feature_list = extract(line)
+                        for feature in feature_list:
+                            print("\t".join(feature), file=out_file)
+                        print("", file=out_file)
+                        # Make test casefolded tokens file
+                        for word in line:
+                            print(word.casefold(), file=cased)
+                        print("", file=cased)
+                        for word in line:
+                            print(word, file=gold)
+                        print("", file=gold)
 
-            
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Trains the case-restoration model")
-    parser.add_argument("data", help="Path to input data file")
-    parser.add_argument("features", help="Path for feature data file")
+    parser = argparse.ArgumentParser(
+        description="Trains the case-restoration model"
+    )
+    parser.add_argument("data", help="Path to input data file.")
+    parser.add_argument("features", help="Path for feature data file.")
+    parser.add_argument(
+        "cased", help="Path to file for writing casefolded test tokens."
+    )
+    parser.add_argument("gold", help="Path to file for writing gold tokens.")
     namespace = parser.parse_args()
     main(namespace)
